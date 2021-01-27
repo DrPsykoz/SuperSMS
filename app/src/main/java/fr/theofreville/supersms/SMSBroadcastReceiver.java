@@ -31,9 +31,13 @@ public class SMSBroadcastReceiver extends BroadcastReceiver {
                     String senderNum = phoneNumber;
                     String message = currentMessage.getDisplayMessageBody();
 
-                    Log.i("SmsReceiver", "senderNum: "+ senderNum + "; message: " + message);
-
-                    Toast.makeText(context, "senderNum: "+ senderNum + ", message: " + message, Toast.LENGTH_LONG).show();
+                    boolean dataAdded = MainActivity.databaseHelper.addData(senderNum, message);
+                    if(dataAdded){
+                        Toast.makeText(context, "Nouveau message recu.", Toast.LENGTH_LONG).show();
+                        MainActivity.populateListView();
+                    } else {
+                        Toast.makeText(context, "Erreur lors de la reception du nouveau message", Toast.LENGTH_LONG).show();
+                    }
 
                 }
             }
